@@ -12,9 +12,9 @@ h1{font:700 1.5rem/1.2 "Trebuchet MS",system-ui,sans-serif;margin:0 0 4px}
 form{display:grid;gap:14px;grid-template-columns:repeat(6,1fr)}
 .f{display:flex;flex-direction:column;gap:4px;min-width:0}
 .f label{font-size:.85rem;color:var(--muted)}
-.link{grid-column:span 6}.project{grid-column:span 6}.id{grid-column:span 2}.date{grid-column:span 2}.status{grid-column:span 2}
+.link{grid-column:span 6}.project{grid-column:span 6}.id{grid-column:span 2}.date{grid-column:span 2}.status{grid-column:span 2}.role{grid-column:span 2}
 .st{grid-column:span 3}.en{grid-column:span 3}
-@media(max-width:640px){.project,.id,.date,.status,.st,.en{grid-column:span 6}}
+@media(max-width:640px){.project,.id,.date,.status,.role,.st,.en{grid-column:span 6}}
 input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%}
 input[readonly]{color:var(--muted);cursor:not-allowed}
 input:disabled{opacity:.6}

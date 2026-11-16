@@ -23,6 +23,8 @@
         <span class="hint">Yesterday and earlier are disabled</span></div>
       <div class="f status"><label for="status">Status</label>
         <select id="status"><option value="Submitted">Submitted</option><option value="Pending">Pending</option></select></div>
+      <div class="f role"><label for="role">Role</label>
+        <select id="role"><option value="FP">FP</option><option value="QA Review Skip">QA Review Skip</option></select></div>
       <div class="f st"><label for="start">Start time</label>
         <input type="time" id="start" required></div>
       <div class="f en"><label for="end">End time</label>
@@ -46,7 +48,7 @@
       <button id="csv" type="button">Download CSV</button>
     </div>
     <div class="tw"><table>
-      <thead><tr><th><input type="checkbox" id="selAll" aria-label="Select all tasks on this page" style="width:auto"></th><th>Project Name</th><th>ID</th><th>Date</th><th>Start</th><th>End</th><th>Status</th><th>Link</th><th></th></tr></thead>
+      <thead><tr><th><input type="checkbox" id="selAll" aria-label="Select all tasks on this page" style="width:auto"></th><th>Project Name</th><th>Role</th><th>ID</th><th>Date</th><th>Start</th><th>End</th><th>Status</th><th>Link</th><th></th></tr></thead>
       <tbody id="rows"></tbody>
     </table></div>
     <div class="empty" id="empty" hidden>No tasks yet.</div>
