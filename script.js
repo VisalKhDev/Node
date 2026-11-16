@@ -49,14 +49,14 @@ $("now").onclick=()=>{$("start").value=hm(new Date())};
 
 function resetForm(){
   editKey=null;
-  ["link","tid","start"].forEach(k=>$(k).value="");
+  ["link","project","tid","start"].forEach(k=>$(k).value="");
   $("status").value="Submitted";$("date").min=today;$("date").value=today;
   $("end").value="Set on submit";
   $("submitBtn").textContent="Submit task";$("cancelEdit").hidden=true;
 }
 function startEdit(t){
   editKey=t.created;
-  $("link").value=t.link;$("tid").value=t.id;$("date").min="";$("date").value=t.date;
+  $("link").value=t.link;$("project").value=t.project||"";$("tid").value=t.id;$("date").min="";$("date").value=t.date;
   $("start").value=t.start;$("status").value=t.status;$("end").value=t.end;
   $("submitBtn").textContent="Update task";$("cancelEdit").hidden=false;
   msg("Editing task "+t.id+". End time stays as saved.");
@@ -82,21 +82,21 @@ $("delSel").onclick=async()=>{
 
 $("form").addEventListener("submit",e=>{
   e.preventDefault();
-  const id=$("tid").value.trim(),date=$("date").value;
+  const id=$("tid").value.trim(),date=$("date").value,project=$("project").value.trim();
   if(!/^\d+$/.test(id)){msg("ID must be numbers only.",true);return}
   const editing=editKey!==null?tasks.find(t=>t.created===editKey):null;
   if(date<today&&!(editing&&editing.date===date)){msg("Pick today or a later date.",true);return}
   if(editing){
-    Object.assign(editing,{id,link:$("link").value.trim(),date,start:$("start").value,status:$("status").value});
+    Object.assign(editing,{id,project,link:$("link").value.trim(),date,start:$("start").value,status:$("status").value});
     const ok=persist();msg(ok?"Task "+id+" updated":"Could not save in this browser",!ok);
     resetForm();draw();return;
   }
   const end=hm(new Date());                       // current time at submit
   $("end").value=end;
   if(tasks.some(t=>t.id===id&&t.date===date)&&!confirm("ID "+id+" is already logged for "+date+". Add it again?"))return;
-  tasks.unshift({id,link:$("link").value.trim(),date,start:$("start").value,end,status:$("status").value,created:Date.now()});
+  tasks.unshift({id,project,link:$("link").value.trim(),date,start:$("start").value,end,status:$("status").value,created:Date.now()});
   msg(persist()?"Saved. End time "+end:"Could not save in this browser",!persist());
-  $("link").value="";$("tid").value="";$("start").value="";$("status").value="Submitted";
+  $("link").value="";$("project").value="";$("tid").value="";$("start").value="";$("status").value="Submitted";
   setTimeout(()=>{if(editKey===null)$("end").value="Set on submit"},1500);
   page=1;draw();
 });
@@ -118,7 +118,7 @@ function draw(){
     cb.type="checkbox";cb.style.width="auto";cb.checked=picked.has(t.created);cb.setAttribute("aria-label","Select task "+t.id);
     cb.onchange=()=>{cb.checked?picked.add(t.created):picked.delete(t.created);updateSel(pageItems)};
     cTd.append(cb);
-    tr.append(cTd,cell(t.id),cell(t.date),cell(t.start),cell(t.end));
+    tr.append(cTd,cell(t.project||"-"),cell(t.id),cell(t.date),cell(t.start),cell(t.end));
     const sTd=document.createElement("td"),sel=document.createElement("select");
     ["Submitted","Pending"].forEach(o=>{const op=new Option(o,o,false,o===t.status);sel.add(op)});
     sel.className=t.status==="Submitted"?"pill-S":"pill-P";
@@ -153,7 +153,7 @@ $("filter").onchange=()=>{page=1;draw()};
 $("clearFilter").onclick=()=>{$("filter").value="";page=1;draw()};
 $("csv").onclick=()=>{
   const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
-  const rows=[["ID","Task Link","Date","Start time","End time","Status"],...tasks.map(t=>[t.id,t.link,t.date,t.start,t.end,t.status])];
+  const rows=[["Project Name","ID","Task Link","Date","Start time","End time","Status"],...tasks.map(t=>[t.project||"",t.id,t.link,t.date,t.start,t.end,t.status])];
   const blob=new Blob([rows.map(r=>r.map(q).join(",")).join("\n")],{type:"text/csv"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="task-log.csv";a.click();
 };
