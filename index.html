@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Task Log</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <h1>Task Log</h1>
+  <p class="sub">Paste the task link and the ID is filled in for you. End time is set when you submit.</p>
+  <section class="panel">
+    <form id="form" autocomplete="off">
+      <div class="f link"><label for="link">Task Link</label>
+        <input type="text" id="link" placeholder="Paste the task link here" required></div>
+      <div class="f id"><label for="tid">ID</label>
+        <input type="text" id="tid" inputmode="numeric" placeholder="Filled from the link" required></div>
+      <div class="f date"><label for="date">Date</label>
+        <input type="date" id="date" required>
+        <span class="hint">Yesterday and earlier are disabled</span></div>
+      <div class="f status"><label for="status">Status</label>
+        <select id="status"><option value="Submitted">Submitted</option><option value="Pending">Pending</option></select></div>
+      <div class="f st"><label for="start">Start time</label>
+        <input type="time" id="start" required></div>
+      <div class="f en"><label for="end">End time</label>
+        <input type="text" id="end" readonly value="Set on submit">
+      </div>
+      <div class="actions">
+        <button type="submit" class="primary" id="submitBtn">Submit task</button>
+        <button type="button" id="cancelEdit" hidden>Cancel edit</button>
+        <button type="button" id="now">Start time = now</button>
+        <span class="msg" id="msg" role="status"></span>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="bar">
+      <input type="date" id="filter" style="width:auto" aria-label="Filter by date">
+      <button id="clearFilter" type="button">Show all dates</button>
+      <span class="grow"></span>
+      <button id="delSel" type="button" disabled>Delete selected (0)</button>
+      <button id="csv" type="button">Download CSV</button>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th><input type="checkbox" id="selAll" aria-label="Select all tasks on this page" style="width:auto"></th><th>ID</th><th>Date</th><th>Start</th><th>End</th><th>Status</th><th>Link</th><th></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+    <div class="empty" id="empty" hidden>No tasks yet.</div>
+    <div class="pager" id="pager"></div>
+  </section>
+</div>
+<dialog id="dlg" aria-labelledby="dlgTitle">
+  <h2 id="dlgTitle"></h2>
+  <p id="dlgText"></p>
+  <label for="dlgInput" id="dlgLabel"></label>
+  <input type="text" id="dlgInput" autocomplete="off">
+  <div class="dlgbtns">
+    <button type="button" id="dlgCancel">Cancel</button>
+    <button type="button" id="dlgOk" class="danger" disabled>Delete</button>
+  </div>
+</dialog>
+<script src="script.js"></script>
+</body>
+</html>
